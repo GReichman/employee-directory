@@ -32,6 +32,14 @@ class EmployeeContainer extends Component{
 
     }
 
+    handleSearch = event => {
+        let term = event.target.value;
+        const newList = searchList(this.state.allEmployees,term);
+        this.setState({
+            currEmployees:newList
+        });
+    }
+
     handleSort = event =>{
         let property = event.target.name;
         let order;
@@ -59,13 +67,13 @@ class EmployeeContainer extends Component{
        
         return(
             <table>
-
                 <tbody>
                 <tr>
                     <th></th>
                     <th ><button name="name" onClick = {this.handleSort}>Name</button></th>
                     <th ><button name="phone" onClick ={this.handleSort}>Phone</button></th>
                     <th ><button name="email" onClick ={this.handleSort}>Email</button></th>
+                    <th><input type="text" onChange = {this.handleSearch} placeholder="Search"></input></th>
                 </tr>
                {createEmpRows(this.state.currEmployees)}
                 </tbody>
@@ -93,6 +101,16 @@ function sortList(order, list, property){
         }
     });
 
+}
+
+function searchList(list, term){
+    return list.filter(emp => {
+        if(emp.name.toUpperCase().includes(term.toUpperCase())){
+            return true;
+        }else{
+            return false;
+        }
+    })
 }
 
 export default EmployeeContainer;
